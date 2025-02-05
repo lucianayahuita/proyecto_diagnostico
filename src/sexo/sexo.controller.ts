@@ -1,24 +1,27 @@
-import { Controller, Get, Post, Body, Param } from '@nestjs/common';
+import { Controller, Get, Param, Post, Body, NotFoundException } from '@nestjs/common';
 import { SexoService } from './sexo.service';
 import { Sexo } from 'src/entities/sexo.entity';
 
-@Controller('sexo') // Define la URL base para las peticiones
+@Controller('sexo') // 👈 Asegúrate de que la ruta base es "/sexo"
 export class SexoController {
   constructor(private readonly sexoService: SexoService) {}
 
-  @Get()
-  findAll(): Promise<Sexo[]> {
-    return this.sexoService.findAll(); // Llama al servicio para obtener todos los sexos
+  @Get('obtenerTodosSexos')
+  async findAll(): Promise<Sexo[]> {
+    return await this.sexoService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: number): Promise<Sexo> {
-    return this.sexoService.findOne(id); // Obtiene un sexo por su ID
+  async findOne(@Param('id') id: number): Promise<Sexo> {
+    const sexo = await this.sexoService.findOne(id);
+    if (!sexo) {
+      throw new NotFoundException(`Sexo con ID ${id} no encontrado`);
+    }
+    return sexo;
   }
 
-  @Post()
-  create(@Body() data: { sexo: string }): Promise<Sexo> {
-    return this.sexoService.create(data);
+  @Post('crearsexo')
+  async create(@Body() sexoData: Sexo): Promise<Sexo> {
+    return await this.sexoService.create(sexoData);
   }
-  
 }

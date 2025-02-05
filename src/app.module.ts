@@ -1,14 +1,12 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { UsersModule } from './users/users.module'; // 👈 Importamos UsersModule
+import { SexoModule } from './sexo/sexo.module';
 import { CarreraModule } from './carrera/carrera.module';
 import { ColegiosModule } from './colegios/colegios.module';
-import { EstudianteModule } from './estudiante/estudiante.module';
 import { NacionalidadModule } from './nacionalidad/nacionalidad.module';
-import { SexoModule } from './sexo/sexo.module';
 import { TipoSangreModule } from './tipo_sangre/tipo_sangre.module';
-import { UsuariosModule } from './usuarios/usuarios.module';
-
+import { UsuarioModule } from './usuarios/usuarios.module';
+import { EstudianteModule } from './estudiante/estudiante.module';
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -18,17 +16,17 @@ import { UsuariosModule } from './usuarios/usuarios.module';
       username: 'postgres',
       password: '123456',
       database: 'registro',
-      autoLoadEntities: true,  // 👈 Carga automáticamente todas las entidades
-      synchronize: true,       // 👈 Solo para desarrollo (crea/modifica tablas automáticamente)
+      autoLoadEntities: true,
+      synchronize: true,
     }),
-    UsersModule,
+    SexoModule, // 👈 Asegúrate de que está aquí
     CarreraModule,
     ColegiosModule,
-    EstudianteModule,
     NacionalidadModule,
-    SexoModule,
     TipoSangreModule,
-    UsuariosModule, // 👈 Importamos el módulo de usuarios
+    UsuarioModule,
+    EstudianteModule
   ],
 })
 export class AppModule {}
+

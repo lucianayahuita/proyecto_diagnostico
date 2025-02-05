@@ -10,17 +10,20 @@ export class SexoService {
     private readonly sexoRepository: Repository<Sexo>,
   ) {}
 
-  findAll(): Promise<Sexo[]> {
-    return this.sexoRepository.find();
+  async findAll(): Promise<Sexo[]> {
+    return await this.sexoRepository.find();
   }
+  
 
-  async findOne(id: number): Promise<Sexo> {
-    const sexo = await this.sexoRepository.findOne({ where: { id_sexo: id } });
+  async findOne(id_sexo: number): Promise<Sexo> {
+    const sexo = await this.sexoRepository.findOne({ where: { id_sexo } });
     if (!sexo) {
-      throw new NotFoundException(`Sexo con ID ${id} no encontrado`);
+      throw new NotFoundException(`Sexo con ID ${id_sexo} no encontrado`);
     }
     return sexo;
   }
+  
+  
 
   async create(data: Partial<Sexo>): Promise<Sexo> {
     console.log('📥 Recibido en servicio:', data);
